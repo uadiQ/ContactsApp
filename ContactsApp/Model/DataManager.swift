@@ -21,10 +21,13 @@ final class DataManager {
     }
     
     func generateStartUpData() {
-        allContacts.append(Contact(name: "Thor", surname: "Odinson", number: "777-777-77"))
-        allContacts[0].setProfilePic(image: #imageLiteral(resourceName: "thor"))
+        allContacts.append(Contact(name: "Thor", surname: "Odinson", number: "777-777-77", pic: #imageLiteral(resourceName: "thor")))
         allContacts.append(Contact(name: "Odin", number: "111"))
         allContacts.append(Contact(name: "Hulk", number: "He smashed his phone =/"))
+        allContacts.append(Contact(name: "Groot", number: "4357801"))
+        allContacts.append(Contact(name: "Rocket", number: "123-321-41"))
+        allContacts[4].setProfilePic(image: #imageLiteral(resourceName: "Rocket"))
+        allContacts.append(Contact(name: "Thanos", number: "411-50547"))
     }
     
     func compileDataBase() {
