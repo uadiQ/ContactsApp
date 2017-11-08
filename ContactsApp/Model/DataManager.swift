@@ -16,7 +16,7 @@ final class DataManager {
     var datasource: [String: [Contact]] = [:]
     var lettersArray: [String] = []
     
-    func addContact(contact: Contact) {
+    func addContact(_ contact: Contact) {
         allContacts.append(contact)
     }
     
