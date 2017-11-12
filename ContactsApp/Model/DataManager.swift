@@ -25,13 +25,18 @@ final class DataManager {
     }
     
     func changeContactDetails(_ contact: Contact) {
-        //TO DO
-//
-//
-//
-//
-//
-//
+        let sectionLetter = contact.getFirstLetter()
+        var contactsOfLetter = contactsByLetter(by: sectionLetter)
+        guard !contactsOfLetter.isEmpty else { return }
+        guard let index = getIndex(of: contact, in: contactsOfLetter) else { return }
+        contactsOfLetter[index] = contact
+        if contactsOfLetter.isEmpty {
+            datasource[sectionLetter] = nil
+        } else {
+            datasource[sectionLetter] = contactsOfLetter
+        }
+        
+        updateLettersArray()
         NotificationCenter.default.post(name: .ContactChanged, object: nil)
     }
     
@@ -41,8 +46,18 @@ final class DataManager {
         guard !contactsOfLetter.isEmpty else { return }
         guard let deletingIndex = getIndex(of: contact, in: contactsOfLetter) else { return }
         contactsOfLetter.remove(at: deletingIndex)
-        datasource[sectionLetter] = contactsOfLetter
+        if contactsOfLetter.isEmpty {
+            datasource[sectionLetter] = nil
+        } else {
+            datasource[sectionLetter] = contactsOfLetter
+        }
+        updateLettersArray()
         NotificationCenter.default.post(name: .ContactDeleted, object: nil)
+    }
+    
+    private func updateLettersArray() {
+        
+        lettersArray = Array(datasource.keys)
     }
     
     func generateStartUpData() {
@@ -62,16 +77,7 @@ final class DataManager {
             tempContactArray.append(contact)
             datasource[contactKey] = tempContactArray
         }
-        lettersArray = Array(datasource.keys)
-        refreshLettersArray(lettersArray)
-    }
-    
-    private func refreshLettersArray(_ array: [String]) {
-        for (index, letter) in lettersArray.enumerated() {
-            if contactsByLetter(by: letter).isEmpty {
-                lettersArray.remove(at: index)
-            }
-        }
+        updateLettersArray()
     }
     
     // MARK: - private methods
@@ -91,7 +97,5 @@ final class DataManager {
         let contactsForSection = datasource[contactKey]
         return contactsForSection?[indexPath.row]
     }
-    
-    
     
 }

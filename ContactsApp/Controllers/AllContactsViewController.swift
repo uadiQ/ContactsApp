@@ -76,7 +76,7 @@ extension AllContactsViewController: UITableViewDelegate, UITableViewDataSource 
 // MARK: - Notification extensions
 extension AllContactsViewController {
     @objc func contactChanged() {
-        //  tableView.reloadData()
+        tableView.reloadData()
     }
     
     @objc func contactDeleted() {
