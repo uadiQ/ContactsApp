@@ -16,6 +16,7 @@
 		1CC1A28D1FAF259F00C7BC9E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CC1A28B1FAF259F00C7BC9E /* Main.storyboard */; };
 		1CC1A28F1FAF259F00C7BC9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CC1A28E1FAF259F00C7BC9E /* Assets.xcassets */; };
 		1CC1A2921FAF259F00C7BC9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CC1A2901FAF259F00C7BC9E /* LaunchScreen.storyboard */; };
+		1CDAB32A1FB84CBB00E96A28 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDAB3291FB84CBB00E96A28 /* Notification+Extension.swift */; };
 		EC209F34DB4292AD5C2AE828 /* Pods_ContactsApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72B2290F7307206C79823D7 /* Pods_ContactsApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		1CC1A28E1FAF259F00C7BC9E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1CC1A2911FAF259F00C7BC9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1CC1A2931FAF259F00C7BC9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1CDAB3291FB84CBB00E96A28 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		A6D44F031F13C273ABDA94ED /* Pods-ContactsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContactsApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ContactsApp/Pods-ContactsApp.release.xcconfig"; sourceTree = "<group>"; };
 		B57372BF2AFDA4BA8B2D6C76 /* Pods-ContactsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContactsApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ContactsApp/Pods-ContactsApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D72B2290F7307206C79823D7 /* Pods_ContactsApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ContactsApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +105,7 @@
 		1CC1A2861FAF259F00C7BC9E /* ContactsApp */ = {
 			isa = PBXGroup;
 			children = (
+				1CDAB3281FB84CA000E96A28 /* Extensions */,
 				1C7B23851FAF2DCA005DCE06 /* Model */,
 				1C7B237E1FAF2BF1005DCE06 /* View */,
 				1C7B237D1FAF2BE9005DCE06 /* Controllers */,
@@ -113,6 +116,14 @@
 				1CC1A2931FAF259F00C7BC9E /* Info.plist */,
 			);
 			path = ContactsApp;
+			sourceTree = "<group>";
+		};
+		1CDAB3281FB84CA000E96A28 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1CDAB3291FB84CBB00E96A28 /* Notification+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		5E9C7B11DD6075ABFD24FCD3 /* Pods */ = {
@@ -269,6 +280,7 @@
 				1C7B238B1FAF334B005DCE06 /* ContactTableViewCell.swift in Sources */,
 				1C7B238D1FAF3988005DCE06 /* ContactDetailsViewController.swift in Sources */,
 				1C7B23891FAF303E005DCE06 /* DataManager.swift in Sources */,
+				1CDAB32A1FB84CBB00E96A28 /* Notification+Extension.swift in Sources */,
 				1CC1A2881FAF259F00C7BC9E /* AppDelegate.swift in Sources */,
 				1C7B23841FAF2CAD005DCE06 /* AllContactsViewController.swift in Sources */,
 			);

@@ -18,7 +18,7 @@ class ContactTableViewCell: UITableViewCell {
     }
 
     func update(_ contact: Contact) {
-        ibImageView.image = contact.profilePic
+        ibImageView.image = contact.profilePic ?? #imageLiteral(resourceName: "defaultContact")
         ibFullName.text = (contact.name + " " + contact.surname)
     }
 }

@@ -9,18 +9,24 @@
 import UIKit
 
 class Contact {
+    private static var contactCounter = 0
+    let id: Int
     var name: String
     var surname: String
     var phoneNumber: String
-    var profilePic: UIImage = #imageLiteral(resourceName: "defaultContact")
+    var profilePic: UIImage?
     
     init() {
+        Contact.contactCounter += 1
+        id = Contact.contactCounter
         name = "Default name"
         surname = "Default surname"
         phoneNumber = "----------"
     }
     
     init(name: String, number: String) {
+        Contact.contactCounter += 1
+        self.id = Contact.contactCounter
         self.name = name
         self.phoneNumber = number
         surname = ""

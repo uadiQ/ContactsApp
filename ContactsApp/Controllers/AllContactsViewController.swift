@@ -18,8 +18,9 @@ class AllContactsViewController: UIViewController {
         tableView.dataSource = self
         DataManager.instance.generateStartUpData()
         DataManager.instance.compileDataBase()
+        addObservers()
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "ShowContactInfo", let destVC = segue.destination as? ContactDetailsViewController
             else { return }
@@ -35,6 +36,10 @@ class AllContactsViewController: UIViewController {
         
     }
     
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(contactChanged), name: .ContactChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(contactDeleted), name: .ContactDeleted, object: nil)
+    }
 }
 
 // MARK: - tableView extensions
@@ -65,5 +70,16 @@ extension AllContactsViewController: UITableViewDelegate, UITableViewDataSource 
         guard let item = DataManager.instance.getContact(indexPath: indexPath) else { fatalError("Contact with wrong indexPath") }
         cell.update(item)
         return cell
+    }
+}
+
+// MARK: - Notification extensions
+extension AllContactsViewController {
+    @objc func contactChanged() {
+        //  tableView.reloadData()
+    }
+    
+    @objc func contactDeleted() {
+        tableView.reloadData()
     }
 }
