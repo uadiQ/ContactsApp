@@ -21,7 +21,7 @@ class ContactDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let contact = contactToLoad else { return }
-        title = contact.name + " " + contact.surname
+        setTitle(by: contact)
         profileImage.image = contact.profilePic ?? #imageLiteral(resourceName: "defaultContact")
         nameTextField.text = contact.name
         surnameTextField.text = contact.surname
@@ -32,16 +32,12 @@ class ContactDetailsViewController: UIViewController {
     @IBAction func savePressed(_ sender: Any) {
         guard let editedContact = contactToLoad else { return }
         let newName = nameTextField.text ?? ""
-        guard !newName.isEmpty else { return }
         editedContact.name = newName
-        
         let newSurname = surnameTextField.text ?? ""
-        guard !newSurname.isEmpty else { return }
         editedContact.surname = newSurname
-        
         let newPhoneNumber = phoneNumberTextField.text ?? ""
-        guard !newPhoneNumber.isEmpty else { return }
         editedContact.phoneNumber = newPhoneNumber
+        setTitle(by: editedContact)
         DataManager.instance.changeContactDetails(editedContact)
     }
     
@@ -49,6 +45,11 @@ class ContactDetailsViewController: UIViewController {
         guard let contact = contactToLoad else { return }
         DataManager.instance.deleteContact(contact)
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func setTitle(by contact: Contact) {
+        //guard let contact = contactToLoad else { return }
+        title = contact.name + " " + contact.surname
     }
     
     //    private func setupStartUI() {

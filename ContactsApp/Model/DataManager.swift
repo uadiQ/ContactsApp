@@ -12,7 +12,11 @@ final class DataManager {
     static let instance = DataManager()
     private init() { }
     
-    var allContacts: [Contact] = []
+    var allContacts: [Contact] = [] {
+        didSet {
+            //resetDataSource()
+        }
+    }
     var datasource: [String: [Contact]] = [:]
     var lettersArray: [String] = []
     
@@ -22,21 +26,13 @@ final class DataManager {
     
     func addContact(_ contact: Contact) {
         allContacts.append(contact)
+        resetDataSource()
     }
     
     func changeContactDetails(_ contact: Contact) {
-        let sectionLetter = contact.getFirstLetter()
-        var contactsOfLetter = contactsByLetter(by: sectionLetter)
-        guard !contactsOfLetter.isEmpty else { return }
-        guard let index = getIndex(of: contact, in: contactsOfLetter) else { return }
-        contactsOfLetter[index] = contact
-        if contactsOfLetter.isEmpty {
-            datasource[sectionLetter] = nil
-        } else {
-            datasource[sectionLetter] = contactsOfLetter
-        }
-        
-        updateLettersArray()
+        guard let editingIndex = getIndex(of: contact, in: allContacts) else { fatalError("Contact index is lost") }
+        allContacts[editingIndex] = contact
+        resetDataSource()
         NotificationCenter.default.post(name: .ContactChanged, object: nil)
     }
     
@@ -53,11 +49,6 @@ final class DataManager {
         }
         updateLettersArray()
         NotificationCenter.default.post(name: .ContactDeleted, object: nil)
-    }
-    
-    private func updateLettersArray() {
-        
-        lettersArray = Array(datasource.keys)
     }
     
     func generateStartUpData() {
@@ -80,6 +71,12 @@ final class DataManager {
         updateLettersArray()
     }
     
+     func resetDataSource() {
+        datasource = [:]
+        compileDataBase()
+    }
+    
+    
     // MARK: - private methods
     private func getIndex(of contact: Contact, in contactsArray: [Contact]) -> Int? {
         var contactIndex: Int?
@@ -90,6 +87,10 @@ final class DataManager {
             }
         }
         return contactIndex
+    }
+    
+    private func updateLettersArray() {
+        lettersArray = Array(datasource.keys)
     }
     
     func getContact(indexPath: IndexPath) -> Contact? {
