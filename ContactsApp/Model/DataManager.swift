@@ -14,7 +14,8 @@ final class DataManager {
     
     var allContacts: [Contact] = [] {
         didSet {
-            //resetDataSource()
+//            resetDataSource()
+//            NotificationCenter.default.post(name: .contactsArrayChanged, object: nil)
         }
     }
     var datasource: [String: [Contact]] = [:]

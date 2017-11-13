@@ -39,6 +39,7 @@ class AllContactsViewController: UIViewController {
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(contactChanged), name: .ContactChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(contactDeleted), name: .ContactDeleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(contactsArrayChanged), name: .contactsArrayChanged, object: nil)
     }
 }
 
@@ -81,6 +82,10 @@ extension AllContactsViewController {
     }
     
     @objc func contactDeleted() {
+        tableView.reloadData()
+    }
+    
+    @objc func contactsArrayChanged() {
         tableView.reloadData()
     }
 }
