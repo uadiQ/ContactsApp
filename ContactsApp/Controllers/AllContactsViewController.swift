@@ -16,8 +16,6 @@ class AllContactsViewController: UIViewController {
         title = "Contacts"
         tableView.delegate = self
         tableView.dataSource = self
-        DataManager.instance.generateStartUpData()
-        DataManager.instance.compileDataBase()
         addObservers()
     }
     
