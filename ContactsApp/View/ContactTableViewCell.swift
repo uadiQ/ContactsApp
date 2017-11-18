@@ -15,6 +15,7 @@ class ContactTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
+        ibImageView.layer.cornerRadius = ibImageView.frame.width / 2.0
     }
 
     func update(_ contact: Contact) {
