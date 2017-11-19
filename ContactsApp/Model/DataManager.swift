@@ -30,6 +30,7 @@ final class DataManager {
     func addContact(_ contact: Contact) {
         allContacts.append(contact)
         resetDataSource()
+        NotificationCenter.default.post(name: .ContactAdded, object: nil)
     }
     
     func changeContactDetails(_ contact: Contact) {
@@ -40,19 +41,26 @@ final class DataManager {
     }
     
     func deleteContact(_ contact: Contact) {
-        let sectionLetter = contact.getFirstLetter()
-        var contactsOfLetter = contactsByLetter(sectionLetter)
-        guard !contactsOfLetter.isEmpty else { return }
-        guard let deletingIndex = getIndex(of: contact, in: contactsOfLetter) else { return }
-        contactsOfLetter.remove(at: deletingIndex)
-        if contactsOfLetter.isEmpty {
-            datasource[sectionLetter] = nil
-        } else {
-            datasource[sectionLetter] = contactsOfLetter
-        }
-        updateLettersArray()
+        guard let deletingIndex = getIndex(of: contact, in: allContacts) else { return }
+        allContacts.remove(at: deletingIndex)
+        resetDataSource()
         NotificationCenter.default.post(name: .ContactDeleted, object: nil)
     }
+// Doesnt work correctly
+//    func deleteContact(_ contact: Contact) {
+//        let sectionLetter = contact.getFirstLetter()
+//        var contactsOfLetter = contactsByLetter(sectionLetter)
+//        guard !contactsOfLetter.isEmpty else { return }
+//        guard let deletingIndex = getIndex(of: contact, in: contactsOfLetter) else { return }
+//        contactsOfLetter.remove(at: deletingIndex)
+//        if contactsOfLetter.isEmpty {
+//            datasource[sectionLetter] = nil
+//        } else {
+//            datasource[sectionLetter] = contactsOfLetter
+//        }
+//        updateLettersArray()
+//        NotificationCenter.default.post(name: .ContactDeleted, object: nil)
+//    }
     
      func resetDataSource() {
         datasource = [:]

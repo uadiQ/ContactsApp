@@ -48,6 +48,11 @@ class Contact {
         self.profilePic = pic
     }
     
+    convenience init(name: String, surname: String, number: String, email: String) {
+        self.init(name: name, surname: surname, number: number)
+        self.email = email
+    }
+    
     convenience init(name: String, surname: String, number: String, email: String, pic: UIImage) {
         self.init(name: name, surname: surname, number: number)
         self.profilePic = pic

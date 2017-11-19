@@ -11,5 +11,6 @@ import UIKit
 extension Notification.Name {
     static let ContactChanged = Notification.Name("ContactChanged")
     static let ContactDeleted = Notification.Name("ContactDeleted")
-    static let contactsArrayChanged = Notification.Name("contactsArrayChanged")
+    static let ContactAdded = Notification.Name("ContactAdded")
+    
 }

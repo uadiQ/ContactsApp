@@ -43,6 +43,7 @@ class AllContactsViewController: UIViewController {
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(contactChanged), name: .ContactChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(contactDeleted), name: .ContactDeleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(contactAdded), name: .ContactAdded, object: nil)
     }
     
     private func hideKeyboard() {
@@ -123,6 +124,7 @@ extension AllContactsViewController: UITableViewDelegate, UITableViewDataSource 
         guard editingStyle == .delete else { return }
         let item = getContact(for: indexPath)
         DataManager.instance.deleteContact(item)
+        tableView.reloadData()
     }
 }
 
@@ -148,6 +150,10 @@ extension AllContactsViewController {
     
     @objc func contactDeleted() {
         updateSearchArrayIfNeeded()
+        tableView.reloadData()
+    }
+    
+    @objc func contactAdded() {
         tableView.reloadData()
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 
 class ContactDetailsViewController: UIViewController {
+    @IBOutlet private var contactDetailsView: UIView!
     @IBOutlet private weak var profileImage: UIImageView!
     @IBOutlet private weak var nameTextField: UITextField!
     @IBOutlet private weak var surnameTextField: UITextField!
@@ -20,22 +21,33 @@ class ContactDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let contact = contactToLoad else { return }
+        setupGestures()
+        guard let contact = contactToLoad else {
+            profileImage.image = #imageLiteral(resourceName: "defaultContact")
+            setupDelegates()
+            title = "New Contact"
+            return
+        }
         setupUI(by: contact)
     }
     
     @IBAction func savePressed(_ sender: Any) {
-        guard let editedContact = contactToLoad else { return }
         let newName = nameTextField.text ?? ""
-        editedContact.name = newName
         let newSurname = surnameTextField.text ?? ""
-        editedContact.surname = newSurname
         let newPhoneNumber = phoneNumberTextField.text ?? ""
-        editedContact.phoneNumber = newPhoneNumber
         let newEmail = emailTextField.text ?? ""
-        editedContact.email = newEmail
-        setTitle(by: editedContact)
-        DataManager.instance.changeContactDetails(editedContact)
+        
+        if let editedContact = contactToLoad {
+            editedContact.name = newName
+            editedContact.surname = newSurname
+            editedContact.phoneNumber = newPhoneNumber
+            editedContact.email = newEmail
+            setTitle(by: editedContact)
+            DataManager.instance.changeContactDetails(editedContact)
+        } else {
+            let newContact = Contact(name: newName, surname: newSurname, number: newPhoneNumber, email: newEmail)
+            DataManager.instance.addContact(newContact)
+        }
         navigationController?.popViewController(animated: true)
     }
     
@@ -59,17 +71,33 @@ class ContactDetailsViewController: UIViewController {
     private func setupUI(by contact: Contact) {
         setTitle(by: contact)
         setupTextFieldsContent(by: contact)
+        setupDelegates()
+    }
+    
+    private func setupDelegates() {
         nameTextField.delegate = self
         surnameTextField.delegate = self
         phoneNumberTextField.delegate = self
         emailTextField.delegate = self
     }
+    
     private func setupTextFieldsContent(by contact: Contact) {
         profileImage.image = contact.profilePic ?? #imageLiteral(resourceName: "defaultContact")
         nameTextField.text = contact.name
         surnameTextField.text = contact.surname
         phoneNumberTextField.text = contact.phoneNumber
         emailTextField.text = contact.email
+    }
+    
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
+        let upSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeGestureRecognized(_:)))
+        upSwipeGesture.direction = .up
+        let downSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeGestureRecognized(_:)))
+        downSwipeGesture.direction = .down
+        contactDetailsView.addGestureRecognizer(tapGesture)
+        contactDetailsView.addGestureRecognizer(upSwipeGesture)
+        contactDetailsView.addGestureRecognizer(downSwipeGesture)
     }
     
     private func setTitle(by contact: Contact) {
@@ -84,6 +112,14 @@ class ContactDetailsViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc private func tapGestureRecognized(_ sender: UITapGestureRecognizer) {
+        hideKeyboard()
+    }
+    
+    @objc private func swipeGestureRecognized(_ sender: UISwipeGestureRecognizer) {
+        hideKeyboard()
     }
 }
 

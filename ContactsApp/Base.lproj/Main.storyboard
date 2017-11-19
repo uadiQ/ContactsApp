@@ -78,7 +78,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="V8B-Xd-fSA"/>
+                    <navigationItem key="navigationItem" id="V8B-Xd-fSA">
+                        <barButtonItem key="rightBarButtonItem" title="+" id="0JH-fk-wKP">
+                            <connections>
+                                <segue destination="6DB-ys-fqK" kind="show" identifier="addContact" id="Hco-fm-BiZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="xKo-fs-366" id="Nlf-XB-m8X"/>
                         <outlet property="tableView" destination="o8Q-Ec-ZhI" id="GSI-sw-bhf"/>
@@ -227,6 +233,7 @@
                         <viewLayoutGuide key="safeArea" id="qGJ-Lb-vLS"/>
                     </view>
                     <connections>
+                        <outlet property="contactDetailsView" destination="Wdb-c0-eeo" id="IZO-Fy-N20"/>
                         <outlet property="emailTextField" destination="4cN-rc-6ru" id="Kmq-eD-sJF"/>
                         <outlet property="lcButtonsBottomMargins" destination="1a2-FI-6Rb" id="Mkd-JP-buY"/>
                         <outlet property="lcImageViewHeight" destination="ebG-C4-RAZ" id="SSP-JJ-yUK"/>
@@ -259,4 +266,7 @@
             <point key="canvasLocation" x="-396" y="33"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Hco-fm-BiZ"/>
+    </inferredMetricsTieBreakers>
 </document>
