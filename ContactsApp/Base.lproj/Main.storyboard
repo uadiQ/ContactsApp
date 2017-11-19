@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -212,8 +213,10 @@
                                 </constraints>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R1J-Wf-Xri">
-                                <rect key="frame" x="0.0" y="64" width="375" height="175"/>
+                                <rect key="frame" x="100" y="64" width="175" height="175"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="175" id="Ebp-Q9-jLH"/>
+                                    <constraint firstAttribute="width" secondItem="R1J-Wf-Xri" secondAttribute="height" multiplier="1:1" id="Hoh-g8-Ihh"/>
                                     <constraint firstAttribute="height" priority="750" constant="175" id="ebG-C4-RAZ"/>
                                 </constraints>
                             </imageView>
@@ -224,9 +227,8 @@
                             <constraint firstItem="3DZ-6V-S01" firstAttribute="top" secondItem="a0Z-KQ-9hz" secondAttribute="bottom" constant="40" id="N8u-pq-AaH"/>
                             <constraint firstItem="a0Z-KQ-9hz" firstAttribute="leading" secondItem="qGJ-Lb-vLS" secondAttribute="leading" constant="16" id="d0q-Tg-NAG"/>
                             <constraint firstItem="qGJ-Lb-vLS" firstAttribute="trailing" secondItem="a0Z-KQ-9hz" secondAttribute="trailing" constant="16" id="gSG-Gr-A6B"/>
-                            <constraint firstItem="R1J-Wf-Xri" firstAttribute="top" secondItem="qGJ-Lb-vLS" secondAttribute="top" id="mVK-1g-LIq"/>
-                            <constraint firstItem="R1J-Wf-Xri" firstAttribute="leading" secondItem="qGJ-Lb-vLS" secondAttribute="leading" id="nxZ-Wm-lEM"/>
-                            <constraint firstItem="R1J-Wf-Xri" firstAttribute="trailing" secondItem="qGJ-Lb-vLS" secondAttribute="trailing" id="tvS-UJ-r94"/>
+                            <constraint firstItem="R1J-Wf-Xri" firstAttribute="top" secondItem="qGJ-Lb-vLS" secondAttribute="top" priority="500" id="mVK-1g-LIq"/>
+                            <constraint firstItem="R1J-Wf-Xri" firstAttribute="centerX" secondItem="Wdb-c0-eeo" secondAttribute="centerX" id="tx9-O1-gGZ"/>
                             <constraint firstItem="3DZ-6V-S01" firstAttribute="centerX" secondItem="Wdb-c0-eeo" secondAttribute="centerX" id="ynh-AH-zTT"/>
                             <constraint firstItem="a0Z-KQ-9hz" firstAttribute="top" secondItem="R1J-Wf-Xri" secondAttribute="bottom" constant="60" id="zTT-lx-Zj6"/>
                         </constraints>

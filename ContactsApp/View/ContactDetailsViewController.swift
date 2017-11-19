@@ -21,6 +21,7 @@ class ContactDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGestures()
+        profileImage.layer.cornerRadius = profileImage.frame.width / 2.0
         guard let contact = contactToLoad else {
             profileImage.image = #imageLiteral(resourceName: "defaultContact")
             setupDelegates()
