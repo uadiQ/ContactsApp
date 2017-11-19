@@ -63,7 +63,7 @@ final class DataManager {
     // MARK: - private methods
     
     private func generateStartUpData() {
-        allContacts.append(Contact(name: "Thor", surname: "Odinson", number: "777-777-77", pic: #imageLiteral(resourceName: "thor")))
+        allContacts.append(Contact(name: "Thor", surname: "Odinson", number: "777-777-77", email: "Th0r@asgard.com", pic: #imageLiteral(resourceName: "thor")))
         allContacts.append(Contact(name: "Odin", number: "111"))
         allContacts.append(Contact(name: "Hulk", surname: "Banner", number: "He smashed his phone =/"))
         allContacts.append(Contact(name: "Groot", number: "4357801"))
@@ -85,11 +85,9 @@ final class DataManager {
     
     private func getIndex(of contact: Contact, in contactsArray: [Contact]) -> Int? {
         var contactIndex: Int?
-        for (index, item) in contactsArray.enumerated() {
-            if item.id == contact.id {
+        for (index, item) in contactsArray.enumerated() where item.id == contact.id {
                 contactIndex = index
                 break
-            }
         }
         return contactIndex
     }

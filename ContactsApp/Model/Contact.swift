@@ -15,6 +15,10 @@ class Contact {
     var surname: String
     var phoneNumber: String
     var profilePic: UIImage?
+    var email: String
+    var fullName: String {
+        return name + " " + surname 
+    }
     
     init() {
         Contact.contactCounter += 1
@@ -22,6 +26,7 @@ class Contact {
         name = "Default name"
         surname = "Default surname"
         phoneNumber = "----------"
+        email = ""
     }
     
     init(name: String, number: String) {
@@ -30,6 +35,7 @@ class Contact {
         self.name = name
         self.phoneNumber = number
         surname = ""
+        email = ""
     }
     
     convenience init(name: String, surname: String, number: String) {
@@ -40,6 +46,12 @@ class Contact {
     convenience init(name: String, surname: String, number: String, pic: UIImage) {
         self.init(name: name, surname: surname, number: number)
         self.profilePic = pic
+    }
+    
+    convenience init(name: String, surname: String, number: String, email: String, pic: UIImage) {
+        self.init(name: name, surname: surname, number: number)
+        self.profilePic = pic
+        self.email = email
     }
     
     func editName(name: String) {
