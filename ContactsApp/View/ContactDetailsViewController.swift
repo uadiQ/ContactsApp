@@ -15,7 +15,6 @@ class ContactDetailsViewController: UIViewController {
     @IBOutlet private weak var surnameTextField: UITextField!
     @IBOutlet private weak var phoneNumberTextField: UITextField!
     @IBOutlet private weak var emailTextField: UITextField!
-    @IBOutlet private weak var lcImageViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var lcButtonsBottomMargins: NSLayoutConstraint!
     var contactToLoad: Contact?
     

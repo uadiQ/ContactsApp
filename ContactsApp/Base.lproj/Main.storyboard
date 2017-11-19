@@ -236,7 +236,6 @@
                         <outlet property="contactDetailsView" destination="Wdb-c0-eeo" id="IZO-Fy-N20"/>
                         <outlet property="emailTextField" destination="4cN-rc-6ru" id="Kmq-eD-sJF"/>
                         <outlet property="lcButtonsBottomMargins" destination="1a2-FI-6Rb" id="Mkd-JP-buY"/>
-                        <outlet property="lcImageViewHeight" destination="ebG-C4-RAZ" id="SSP-JJ-yUK"/>
                         <outlet property="nameTextField" destination="NdT-gH-b5w" id="vvM-Xt-e6z"/>
                         <outlet property="phoneNumberTextField" destination="bx2-A8-iim" id="hYH-gQ-PJj"/>
                         <outlet property="profileImage" destination="R1J-Wf-Xri" id="nSu-dr-Dgd"/>
