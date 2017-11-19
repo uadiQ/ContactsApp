@@ -17,8 +17,7 @@ final class DataManager {
     
     var allContacts: [Contact] = [] {
         didSet {
-        //resetDataSource()
-        //NotificationCenter.default.post(name: .contactsArrayChanged, object: nil)  -- ошибка связана(наверное), с тем, что при генерации данных при ините
+
         }
     }
     var datasource: [String: [Contact]] = [:]

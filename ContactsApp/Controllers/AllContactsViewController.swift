@@ -21,6 +21,7 @@ class AllContactsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
+        tableView.keyboardDismissMode = .onDrag
         addObservers()
     }
     
@@ -42,7 +43,6 @@ class AllContactsViewController: UIViewController {
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(contactChanged), name: .ContactChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(contactDeleted), name: .ContactDeleted, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(contactsArrayChanged), name: .contactsArrayChanged, object: nil)
     }
     
     private func hideKeyboard() {
@@ -57,7 +57,20 @@ class AllContactsViewController: UIViewController {
                 searchContactsArray.append(contact)
             }
         }
+//        var sectionsArray: [Int] = []
+//        let size = DataManager.instance.datasource.count
+//        for i in 0..<size {
+//            sectionsArray.append(i)
+//        }
+//        let indexSet = IndexSet(sectionsArray)
+//        tableView.reloadSections(indexSet, with: .none)
         tableView.reloadData()
+    }
+    
+    private func updateSearchArrayIfNeeded() {
+        guard isSearchActive else { return }
+        let searchText = searchBar.text ?? ""
+        findContacts(by: searchText)
     }
     
     private func getContact(for indexPath: IndexPath) -> Contact {
@@ -93,15 +106,23 @@ extension AllContactsViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return isSearchActive ? "Search results" : DataManager.instance.lettersArray[section]
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ContactViewCell", for: indexPath) as? ContactTableViewCell
             else { fatalError("Cell with wrong identifier") }
-        //guard let itemFromDatasource = DataManager.instance.getContact(indexPath: indexPath) else { fatalError("Contact with wrong indexPath") }
-        //let item = isSearchActive ? searchContactsArray[indexPath.row] : itemFromDatasource
         let item = getContact(for: indexPath)
         cell.update(item)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        let item = getContact(for: indexPath)
+        DataManager.instance.deleteContact(item)
     }
 }
 
@@ -117,17 +138,16 @@ extension AllContactsViewController: UISearchBarDelegate {
 }
 
 // MARK: - Notification extensions
+
 extension AllContactsViewController {
     @objc func contactChanged() {
         DataManager.instance.resetDataSource()
+        updateSearchArrayIfNeeded()
         tableView.reloadData()
     }
     
     @objc func contactDeleted() {
-        tableView.reloadData()
-    }
-    
-    @objc func contactsArrayChanged() {
+        updateSearchArrayIfNeeded()
         tableView.reloadData()
     }
 }
