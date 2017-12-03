@@ -15,13 +15,13 @@ final class DataManager {
         compileDataBase()
     }
     
-    var allContacts: [Contact] = [] {
+    private(set) var allContacts: [Contact] = [] {
         didSet {
             
         }
     }
-    var datasource: [String: [Contact]] = [:]
-    var lettersArray: [String] = []
+    private(set) var datasource: [String: [Contact]] = [:]
+    private(set) var lettersArray: [String] = []
     
     func contactsByLetter(_ letter: String) -> [Contact] {
         return datasource[letter] ?? []

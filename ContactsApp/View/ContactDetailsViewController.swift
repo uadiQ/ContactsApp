@@ -51,7 +51,6 @@ class ContactDetailsViewController: UIViewController {
                 if char != "+" && char != "-" && !digits.contains(char) {
                     showErrorAlertWithOk(title: "Wrong format", message: "Phone number can have only digits and +, -")
                     return false
-                    break
                 }
             }
             return true
@@ -95,19 +94,19 @@ class ContactDetailsViewController: UIViewController {
         if !validateFields(email: newEmail, phoneNumber: newPhoneNumber) {
             return
         }
-        let image = profileImage.image
+        let newImage = profileImage.image
         
         if let editedContact = contactToLoad {
             editedContact.name = newName
             editedContact.surname = newSurname
             editedContact.phoneNumber = newPhoneNumber
             editedContact.email = newEmail
-            editedContact.profilePic = image
+            editedContact.profilePic = newImage
             setTitle(by: editedContact)
             DataManager.instance.changeContactDetails(editedContact)
         } else {
-            let newContact = Contact(name: newName, surname: newSurname, number: newPhoneNumber, email: newEmail)
-            newContact.profilePic = image
+            let imageToSend = newImage ?? #imageLiteral(resourceName: "defaultContact")
+            let newContact = Contact(name: newName, surname: newSurname, number: newPhoneNumber, email: newEmail, pic: imageToSend)
             DataManager.instance.addContact(newContact)
         }
         navigationController?.popViewController(animated: true)
