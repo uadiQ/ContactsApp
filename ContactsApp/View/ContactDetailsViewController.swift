@@ -57,8 +57,10 @@ class ContactDetailsViewController: UIViewController {
             return true
         }
     
-    private func validateFields(email: String, phoneNumber: String) {
-                if !emailFits(email) || !phoneNumberFits(phoneNumber) { return }
+    private func validateFields(email: String, phoneNumber: String) -> Bool {
+                if !emailFits(email) || !phoneNumberFits(phoneNumber) { return false } else {
+                    return true
+        }
     }
     
     @IBAction func changeImagePressed(_ sender: UIButton) {
@@ -90,7 +92,9 @@ class ContactDetailsViewController: UIViewController {
         let newSurname = surnameTextField.text ?? ""
         let newPhoneNumber = phoneNumberTextField.text ?? ""
         let newEmail = emailTextField.text ?? ""
-        validateFields(email: newEmail, phoneNumber: newPhoneNumber)
+        if !validateFields(email: newEmail, phoneNumber: newPhoneNumber) {
+            return
+        }
         let image = profileImage.image
         
         if let editedContact = contactToLoad {
