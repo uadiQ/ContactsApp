@@ -65,7 +65,7 @@ class AllContactsViewController: UIViewController {
 //        }
 //        let indexSet = IndexSet(sectionsArray)
 //        tableView.reloadSections(indexSet, with: .none)
-        tableView.reloadData()
+       tableView.reloadData()
     }
     
     private func updateSearchArrayIfNeeded() {

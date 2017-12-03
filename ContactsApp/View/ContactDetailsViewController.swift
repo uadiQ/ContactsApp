@@ -31,21 +31,72 @@ class ContactDetailsViewController: UIViewController {
         setupUI(by: contact)
     }
     
+    private func showErrorAlertWithOk(title: String, message: String) {
+        let errorAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        errorAlert.addAction(okAction)
+        self.present(errorAlert, animated: true, completion: nil)
+    }
+    
+    private func checkEmail(_ email: String) {
+        if !email.isEmpty && !email.contains("@") {
+            showErrorAlertWithOk(title: "Wrong format", message: "email must have '@' character")
+        }
+    }
+    
+        private func checkPhoneNumber(_ phoneNumber: String) {
+            let digits = CharacterSet.decimalDigits
+            for char in phoneNumber.unicodeScalars {
+                if char != "+" && char != "-" && !digits.contains(char) {
+                    showErrorAlertWithOk(title: "Wrong format", message: "Phone number can have only digits and +, -")
+                }
+            }
+        }
+    
+    @IBAction func changeImagePressed(_ sender: UIButton) {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        let imageActionSheet = UIAlertController(title: "Select source", message: "Pick wished option", preferredStyle: .actionSheet)
+        imageActionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (_: UIAlertAction) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                imagePickerController.sourceType = .camera
+                self.present(imagePickerController, animated: true, completion: nil)
+            } else {
+                self.showErrorAlertWithOk(title: "Error", message: "Camera is not available")
+            }
+        }))
+        imageActionSheet.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { (_: UIAlertAction) in
+            imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
+        }))
+        imageActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(imageActionSheet, animated: true, completion: nil)
+    }
+    
     @IBAction func savePressed(_ sender: Any) {
         let newName = nameTextField.text ?? ""
+        if newName.isEmpty {
+            showErrorAlertWithOk(title: "Error!", message: "Name is empty")
+        }
+        
         let newSurname = surnameTextField.text ?? ""
         let newPhoneNumber = phoneNumberTextField.text ?? ""
+        checkPhoneNumber(newPhoneNumber)
         let newEmail = emailTextField.text ?? ""
+        checkEmail(newEmail)
+        let image = profileImage.image
         
         if let editedContact = contactToLoad {
             editedContact.name = newName
             editedContact.surname = newSurname
             editedContact.phoneNumber = newPhoneNumber
             editedContact.email = newEmail
+            editedContact.profilePic = image
             setTitle(by: editedContact)
             DataManager.instance.changeContactDetails(editedContact)
         } else {
             let newContact = Contact(name: newName, surname: newSurname, number: newPhoneNumber, email: newEmail)
+            newContact.profilePic = image
             DataManager.instance.addContact(newContact)
         }
         navigationController?.popViewController(animated: true)
@@ -123,6 +174,19 @@ class ContactDetailsViewController: UIViewController {
     }
 }
 
+// MARK: - ImagePickerDelegate
+extension ContactDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        profileImage.image = image
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
 // MARK: - UITextFieldDelegate
 
 extension ContactDetailsViewController: UITextFieldDelegate {

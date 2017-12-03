@@ -17,7 +17,7 @@ final class DataManager {
     
     var allContacts: [Contact] = [] {
         didSet {
-
+            
         }
     }
     var datasource: [String: [Contact]] = [:]
@@ -40,29 +40,32 @@ final class DataManager {
         NotificationCenter.default.post(name: .ContactChanged, object: nil)
     }
     
+    //    func deleteContact(_ contact: Contact) {
+    //        guard let deletingIndex = getIndex(of: contact, in: allContacts) else { return }
+    //        allContacts.remove(at: deletingIndex)
+    //        resetDataSource()
+    //        NotificationCenter.default.post(name: .ContactDeleted, object: nil)
+    //    }
+    // less optimized method
+    
     func deleteContact(_ contact: Contact) {
-        guard let deletingIndex = getIndex(of: contact, in: allContacts) else { return }
-        allContacts.remove(at: deletingIndex)
-        resetDataSource()
+        let sectionLetter = contact.getFirstLetter()
+        var contactsOfLetter = contactsByLetter(sectionLetter)
+        guard !contactsOfLetter.isEmpty else { return }
+        guard let deletingIndex = getIndex(of: contact, in: contactsOfLetter) else { return }
+        contactsOfLetter.remove(at: deletingIndex)
+        if contactsOfLetter.isEmpty {
+            datasource[sectionLetter] = nil
+        } else {
+            datasource[sectionLetter] = contactsOfLetter
+        }
+        guard let deletingIndexForContactsArray = getIndex(of: contact, in: allContacts) else { return }
+        allContacts.remove(at: deletingIndexForContactsArray)
+        updateLettersArray()
         NotificationCenter.default.post(name: .ContactDeleted, object: nil)
     }
-// Doesnt work correctly
-//    func deleteContact(_ contact: Contact) {
-//        let sectionLetter = contact.getFirstLetter()
-//        var contactsOfLetter = contactsByLetter(sectionLetter)
-//        guard !contactsOfLetter.isEmpty else { return }
-//        guard let deletingIndex = getIndex(of: contact, in: contactsOfLetter) else { return }
-//        contactsOfLetter.remove(at: deletingIndex)
-//        if contactsOfLetter.isEmpty {
-//            datasource[sectionLetter] = nil
-//        } else {
-//            datasource[sectionLetter] = contactsOfLetter
-//        }
-//        updateLettersArray()
-//        NotificationCenter.default.post(name: .ContactDeleted, object: nil)
-//    }
     
-     func resetDataSource() {
+    func resetDataSource() {
         datasource = [:]
         compileDataBase()
     }
@@ -93,8 +96,8 @@ final class DataManager {
     private func getIndex(of contact: Contact, in contactsArray: [Contact]) -> Int? {
         var contactIndex: Int?
         for (index, item) in contactsArray.enumerated() where item.id == contact.id {
-                contactIndex = index
-                break
+            contactIndex = index
+            break
         }
         return contactIndex
     }
