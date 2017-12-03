@@ -38,20 +38,28 @@ class ContactDetailsViewController: UIViewController {
         self.present(errorAlert, animated: true, completion: nil)
     }
     
-    private func checkEmail(_ email: String) {
+    private func emailFits(_ email: String) -> Bool {
         if !email.isEmpty && !email.contains("@") {
             showErrorAlertWithOk(title: "Wrong format", message: "email must have '@' character")
-        }
+            return false
+        } else { return true }
     }
     
-        private func checkPhoneNumber(_ phoneNumber: String) {
+        private func phoneNumberFits(_ phoneNumber: String) -> Bool {
             let digits = CharacterSet.decimalDigits
             for char in phoneNumber.unicodeScalars {
                 if char != "+" && char != "-" && !digits.contains(char) {
                     showErrorAlertWithOk(title: "Wrong format", message: "Phone number can have only digits and +, -")
+                    return false
+                    break
                 }
             }
+            return true
         }
+    
+    private func validateFields(email: String, phoneNumber: String) {
+                if !emailFits(email) || !phoneNumberFits(phoneNumber) { return }
+    }
     
     @IBAction func changeImagePressed(_ sender: UIButton) {
         let imagePickerController = UIImagePickerController()
@@ -81,9 +89,8 @@ class ContactDetailsViewController: UIViewController {
         
         let newSurname = surnameTextField.text ?? ""
         let newPhoneNumber = phoneNumberTextField.text ?? ""
-        checkPhoneNumber(newPhoneNumber)
         let newEmail = emailTextField.text ?? ""
-        checkEmail(newEmail)
+        validateFields(email: newEmail, phoneNumber: newPhoneNumber)
         let image = profileImage.image
         
         if let editedContact = contactToLoad {
